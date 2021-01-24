@@ -23,7 +23,8 @@ if os.name == 'nt':
 
     # also specify some custom paths for libraries
     os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"   # boost library
-    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\eigen-3.3.9"                    # eigen3 linear algebra library
+    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\eigen-3.3.9"                    # eigen3 library
+    os.environ['LIB'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\lib"
 
 if os.name == "posix":
     os.environ['CFLAGS'] = '-I/usr/include/eigen3'
@@ -58,8 +59,7 @@ setup(
     url="https://github.com/ifilot/pymdlj",
     ext_modules=cythonize(ext_modules[0],
                           language_level="3",
-                          build_dir="build",
-                          gdb_debug=True),
+                          build_dir="build"),
     packages=['pymdlj'],
     # package_data={'pymdlj': []},
     include_package_data=True,
