@@ -1,0 +1,11 @@
+cell_length     = 14.938
+nr_particles    = 1000
+kT              = 1.0
+mass            = 1.0
+sigma           = 1.0
+rcut            = 2.5
+epsilon         = 1.0
+tau             = 0.5
+shell           = 0.3
+nrsteps			= 10000
+stepsize		= 0.001

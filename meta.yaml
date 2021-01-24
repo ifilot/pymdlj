@@ -1,0 +1,43 @@
+package:
+  name: "pymdlj"
+  version: "0.1.0"
+
+source:
+  path: .
+
+requirements:
+  build:
+    - numpy
+    - tqdm
+
+  host:
+    - pip
+    - python
+    - setuptools
+    - cython
+    - numpy
+    - tqdm
+
+  run:
+    - python
+    - numpy
+    - tqdm
+
+test:
+  requires:
+    - numpy
+    - setuptools
+    - tqdm
+    - nose
+  source_files:
+    - tests/*.py
+    - tests/settings/*.param.in
+  commands:
+    - nosetests tests
+
+about:
+  home: https://github.com/ifilot/pymdlj
+  license: GPL3
+  license_family: GPL
+  summary: Python package for performing molecular dynamics simulations using Lennard-Jones potentials
+  description: See the package README.md for more information.
