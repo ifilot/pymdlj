@@ -19,4 +19,11 @@ cdef extern from "parameters.h":
 cdef extern from "cell.h":
     cdef cppclass Cell:
         Cell(shared_ptr[Parameters]) except +
-        void integrate(double, double) except +
+        double integrate(double, double) except +
+        double get_etot() except +
+        double get_ekin() except +
+        double get_epot() except +
+        vector[double] get_positions() except +
+        vector[double] get_velocities() except +
+        vector[double] get_initial_positions() except +
+        vector[double] get_initial_velocities() except +

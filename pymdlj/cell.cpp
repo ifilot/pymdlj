@@ -45,7 +45,7 @@ Cell::Cell(const std::shared_ptr<Parameters>& _params) :
  * @param[in]  step  The step number
  * @param[in]  dt    timestep
  */
-void Cell::integrate(unsigned int step, double dt) {
+void Cell::integrate(unsigned int step, double dt, bool verbose) {
     this->update_velocities_half_dt(dt);
     this->apply_berendsen_thermostat(dt);
     this->update_positions(dt);
@@ -65,10 +65,12 @@ void Cell::integrate(unsigned int step, double dt) {
         auto end = std::chrono::system_clock::now();
         std::chrono::duration<double> elapsed_seconds = end-ttime;
 
-        std::cout << boost::format("Step %04i  Ekin = %12.6f  Epot =  %12.6f  Etot = %12.6f  Time = %6.4f s")
+        if(verbose) {
+            std::cout << boost::format("Step %04i  Ekin = %12.6f  Epot =  %12.6f  Etot = %12.6f  Time = %6.4f s")
                      % step %this->ekin % this->epot % this->etot
                      % elapsed_seconds.count()
                      << std::endl;
+        }
         this->ttime = std::chrono::system_clock::now();
     }
 }
@@ -148,6 +150,7 @@ void Cell::initialize() {
             }
         }
     }
+    this->positions_initial = this->positions;
 
     // obtain data from params object
     double kT = this->params->get_param<double>("kT");
@@ -162,6 +165,7 @@ void Cell::initialize() {
         this->velocities[i] = sqrtktm * vec3(this->get_gauss(), this->get_gauss(), this->get_gauss());
         sum += this->velocities[i];
     }
+    this->velocities_initial = this->velocities;
 
     sum /= (double)nr_particles;
 

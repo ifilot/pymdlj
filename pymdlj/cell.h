@@ -43,7 +43,9 @@ class Cell {
 private:
     vec3 dims;                                        // dimensions of the unit cell
     std::vector<vec3> positions;                      // positions of the particles in the unit cell
+    std::vector<vec3> positions_initial;              // initial positions of the particles in the unit cell
     std::vector<vec3> velocities;                     // velocities of the particles in the unit cell
+    std::vector<vec3> velocities_initial;             // velocities of the particles in the unit cell
     std::vector<vec3> forces;                         // forces on the particles in the unit cell
     std::shared_ptr<Parameters> params;               // pointer to the parameters object
     std::vector<unsigned int> neighbor_list;          // neighbor list
@@ -69,7 +71,7 @@ public:
      * @param[in]  step  The step number
      * @param[in]  dt    timestep
      */
-    void integrate(unsigned int step, double dt);
+    void integrate(unsigned int step, double dt, bool verbose = false);
 
     /**
      * @brief      get the dimensions vector
@@ -85,8 +87,11 @@ public:
      *
      * @return     The positions.
      */
-    inline const auto& get_positions() const {
-        return this->positions;
+    std::vector<double> get_positions() const {
+        size_t sz = this->positions.size() * 3;
+        std::vector<double> res(sz);
+        std::memcpy(&res[0], &this->positions[0][0], sz * sizeof(double));
+        return res;
     }
 
     /**
@@ -94,8 +99,35 @@ public:
      *
      * @return     The velocities.
      */
-    inline const auto& get_velocities() const {
-        return this->velocities;
+    std::vector<double> get_velocities() const {
+        size_t sz = this->velocities.size() * 3;
+        std::vector<double> res(sz);
+        std::memcpy(&res[0], &this->velocities[0][0], sz * sizeof(double));
+        return res;
+    }
+
+    /**
+     * @brief      Gets the initial positions.
+     *
+     * @return     The positions.
+     */
+    std::vector<double> get_initial_positions() const {
+        size_t sz = this->positions_initial.size() * 3;
+        std::vector<double> res(sz);
+        std::memcpy(&res[0], &this->positions_initial[0][0], sz * sizeof(double));
+        return res;
+    }
+
+    /**
+     * @brief      Gets the initial velocities.
+     *
+     * @return     The velocities.
+     */
+    std::vector<double> get_initial_velocities() const {
+        size_t sz = this->velocities_initial.size() * 3;
+        std::vector<double> res(sz);
+        std::memcpy(&res[0], &this->velocities_initial[0][0], sz * sizeof(double));
+        return res;
     }
 
     /**
